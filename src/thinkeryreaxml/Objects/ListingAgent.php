@@ -21,7 +21,7 @@ class ListingAgent implements JsonSerializable
         $this->order = $agent->attributes()->id ?: 1;
         $this->setName((string) $agent->name);
         $this->setTelephone((string) $agent->telephone);
-        $this->setTelephoneType((string) $agent->telephone->attributes()->type);
+        $this->setTelephoneType(!empty($agent->telephone) ? $agent->telephone->attributes()->type : null);
         $this->setEmail((string) $agent->email);
         $this->setTwitterURL((string) $agent->twitterURL);
         $this->setFacebookURL((string) $agent->facebookURL);
