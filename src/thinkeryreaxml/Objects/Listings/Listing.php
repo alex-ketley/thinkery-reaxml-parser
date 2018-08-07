@@ -83,7 +83,7 @@ abstract class Listing
         $this->setStatus((string) $xml->attributes()->status);
         $this->setUniqueId((string) $xml->uniqueID);
 
-        if (!in_array($this->getStatus(), $this->inactive)) {
+        if ($this->hasActiveStatus()) {
             $this->setTitle((string)$xml->headline);
             $this->setDescription((string)$xml->description);
             if ($xml->municipality) {
@@ -116,6 +116,11 @@ abstract class Listing
             $this->setLatitude((string) $xml->Geocode->Latitude);
             $this->setLongitude((string) $xml->Geocode->Longitude);
         }
+    }
+
+    public function hasActiveStatus()
+    {
+        return !in_array($this->getStatus(), $this->inactive);
     }
 
     public function getLatitude()
