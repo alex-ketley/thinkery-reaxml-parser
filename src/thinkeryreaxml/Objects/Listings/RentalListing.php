@@ -4,6 +4,8 @@ namespace ThinkReaXMLParser\Objects\Listings;
 
 class RentalListing extends Listing
 {
+    protected $bond;
+
     public function __construct(\SimpleXMLElement $xml)
     {
         parent::__construct($xml);
