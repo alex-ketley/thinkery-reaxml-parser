@@ -24,6 +24,8 @@ abstract class Listing
     protected $listing_office;
     protected $title;
     protected $municipality;
+    protected $latitude;
+    protected $longitude;
     protected $short_description;
     protected $description;
     protected $terms;
