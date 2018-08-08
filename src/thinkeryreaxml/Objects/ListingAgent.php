@@ -18,10 +18,10 @@ class ListingAgent implements JsonSerializable
 
     public function __construct(\SimpleXMLElement $agent, $agent_id = false)
     {
-        $this->order = $agent->attributes()->id ?: 1;
+        $this->order = (int)$agent->attributes()->id ?: 1;
         $this->setName((string) $agent->name);
         $this->setTelephone((string) $agent->telephone);
-        $this->setTelephoneType(!empty($agent->telephone) ? $agent->telephone->attributes()->type : null);
+        $this->setTelephoneType(!empty($agent->telephone) ? (string) $agent->telephone->attributes()->type : null);
         $this->setEmail((string) $agent->email);
         $this->setTwitterURL((string) $agent->twitterURL);
         $this->setFacebookURL((string) $agent->facebookURL);

@@ -836,7 +836,7 @@ abstract class Listing
                     $temp_context = [];
                     $attributes = $feature->attributes();
                     foreach ($attributes as $attribute => $value) {
-                        $temp_context[$attribute] = $value;
+                        $temp_context[$attribute] = (string) $value;
                     }
                     /* @var SimpleXMLElement $feature */
                     $this->features[] = new Detail($feature_group, $feature->getName(), (string) $feature, $temp_context);
