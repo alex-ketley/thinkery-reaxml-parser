@@ -75,6 +75,7 @@ abstract class Listing
     protected $inactive = [
         'leased', 'withdrawn', 'sold', 'rented'
     ];
+    protected $exclusivity;
 
     public function __construct(SimpleXMLElement $xml)
     {
@@ -115,6 +116,7 @@ abstract class Listing
             $this->setFeatures($xml);
             $this->setLatitude((string) $xml->Geocode->Latitude);
             $this->setLongitude((string) $xml->Geocode->Longitude);
+            $this->setExclusivity($xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
         }
     }
 
@@ -863,4 +865,15 @@ abstract class Listing
         }
     }
 
+    public function getExclusivity()
+    {
+        return $this->exclusivity;
+    }
+
+    public function setExclusivity($exclusivity)
+    {
+        $this->exclusivity = $exclusivity;
+
+        return $this;
+    }
 }
