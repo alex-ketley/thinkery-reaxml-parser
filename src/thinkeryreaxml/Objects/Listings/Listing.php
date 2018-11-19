@@ -116,7 +116,7 @@ abstract class Listing
             $this->setFeatures($xml);
             $this->setLatitude((string) $xml->Geocode->Latitude);
             $this->setLongitude((string) $xml->Geocode->Longitude);
-            $this->setExclusivity($xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
+            $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
         }
     }
 
