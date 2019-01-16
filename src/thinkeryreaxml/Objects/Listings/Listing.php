@@ -76,6 +76,7 @@ abstract class Listing
         'leased', 'withdrawn', 'sold', 'rented'
     ];
     protected $exclusivity;
+    protected $authority;
 
     public function __construct(SimpleXMLElement $xml)
     {
@@ -117,6 +118,7 @@ abstract class Listing
             $this->setLatitude((string) $xml->Geocode->Latitude);
             $this->setLongitude((string) $xml->Geocode->Longitude);
             $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
+            $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string)$xml->authority->attributes()->value : null);
         }
     }
 
@@ -873,6 +875,18 @@ abstract class Listing
     public function setExclusivity($exclusivity)
     {
         $this->exclusivity = $exclusivity;
+
+        return $this;
+    }
+
+    public function getAuthority()
+    {
+        return $this->authority;
+    }
+
+    public function setAuthority($authority)
+    {
+        $this->authority = $authority;
 
         return $this;
     }
