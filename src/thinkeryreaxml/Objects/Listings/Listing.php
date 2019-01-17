@@ -84,44 +84,41 @@ abstract class Listing
         $this->setModified((string) $xml->attributes()->modTime);
         $this->setStatus((string) $xml->attributes()->status);
         $this->setUniqueId((string) $xml->uniqueID);
-
-        if ($this->hasActiveStatus()) {
-            $this->setTitle((string)$xml->headline);
-            $this->setDescription((string)$xml->description);
-            if ($xml->municipality) {
-                $this->setMunicipality((string)$xml->municipality);
-            }
-            if ($xml->address) {
-                $this->setAddress($xml->address);
-            }
-            if ($xml->agentID) {
-                $this->setAgentId((string) $xml->agentID);
-            }
-            if ($xml->listingAgent) {
-                $this->setAgents($xml->listingAgent->xpath('//listingAgent'));
-            }
-            $this->setMedia($xml);
-            if($xml->videoLink) {
-                $this->setVideo($xml->videoLink->attributes() ? (string)$xml->videoLink->attributes()->href : null);
-            }            $this->setPriceView((string)$xml->priceView);
-            $this->setPriceView((string)$xml->priceView);
-            if ($xml->price) {
-                $this->setPrice((int)$xml->price);
-                if (isset($xml->price->attributes()->display)) {
-                    $this->setDisplayPrice((string)$xml->price->attributes()->display);
-                } else {
-                    $this->setDisplayPrice(true);
-                }
-            }
-            if ($xml->views) {
-                $this->setPropview($xml->views);
-            }
-            $this->setFeatures($xml);
-            $this->setLatitude((string) $xml->Geocode->Latitude);
-            $this->setLongitude((string) $xml->Geocode->Longitude);
-            $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
-            $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string)$xml->authority->attributes()->value : null);
+        $this->setTitle((string)$xml->headline);
+        $this->setDescription((string)$xml->description);
+        if ($xml->municipality) {
+            $this->setMunicipality((string)$xml->municipality);
         }
+        if ($xml->address) {
+            $this->setAddress($xml->address);
+        }
+        if ($xml->agentID) {
+            $this->setAgentId((string) $xml->agentID);
+        }
+        if ($xml->listingAgent) {
+            $this->setAgents($xml->listingAgent->xpath('//listingAgent'));
+        }
+        $this->setMedia($xml);
+        if($xml->videoLink) {
+            $this->setVideo($xml->videoLink->attributes() ? (string)$xml->videoLink->attributes()->href : null);
+        }
+        $this->setPriceView((string)$xml->priceView);
+        if ($xml->price) {
+            $this->setPrice((int)$xml->price);
+            if (isset($xml->price->attributes()->display)) {
+                $this->setDisplayPrice((string)$xml->price->attributes()->display);
+            } else {
+                $this->setDisplayPrice(true);
+            }
+        }
+        if ($xml->views) {
+            $this->setPropview($xml->views);
+        }
+        $this->setFeatures($xml);
+        $this->setLatitude((string) $xml->Geocode->Latitude);
+        $this->setLongitude((string) $xml->Geocode->Longitude);
+        $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
+        $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string)$xml->authority->attributes()->value : null);
     }
 
     public function hasActiveStatus()
