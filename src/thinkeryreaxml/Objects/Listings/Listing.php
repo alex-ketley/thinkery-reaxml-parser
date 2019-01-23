@@ -77,6 +77,7 @@ abstract class Listing
     ];
     protected $exclusivity;
     protected $authority;
+    protected $under_offer=null;
 
     public function __construct(SimpleXMLElement $xml)
     {
@@ -119,6 +120,7 @@ abstract class Listing
         $this->setLongitude((string) $xml->Geocode->Longitude);
         $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
         $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string)$xml->authority->attributes()->value : null);
+        $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower((string)$xml->underOffer->attributes()->value) === 'yes' : null);
     }
 
     public function hasActiveStatus()
@@ -886,6 +888,18 @@ abstract class Listing
     public function setAuthority($authority)
     {
         $this->authority = $authority;
+
+        return $this;
+    }
+
+    public function getUnderOffer()
+    {
+        return $this->under_offer;
+    }
+
+    public function setUnderOffer($under_offer)
+    {
+        $this->under_offer = (bool)$under_offer;
 
         return $this;
     }
