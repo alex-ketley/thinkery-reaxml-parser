@@ -14,17 +14,13 @@ class Media
     {
         $temp_objects = [];
 
-        if (!count($xml->objects)) {
-            return;
-        }
-
-        $objects = $xml->objects->children();
-
-        if (!count($objects)) {
-            die;
-        }
-        foreach ($objects as $object) {
-            $temp_objects[] = $object;
+        if (count($xml->objects)) {
+            $objects = $xml->objects->children();
+            if (count($objects)) {
+                foreach ($objects as $object) {
+                    $temp_objects[] = $object;
+                }
+            }
         }
 
         // backwards compatibility for older feeds-- look for images node too
