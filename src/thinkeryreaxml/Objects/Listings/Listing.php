@@ -10,6 +10,7 @@ use ThinkReaXMLParser\Objects\ImageObject;
 use ThinkReaXMLParser\Objects\InspectionTime;
 use ThinkReaXMLParser\Objects\ListingAgent;
 use ThinkReaXMLParser\Objects\Media;
+use ThinkReaXMLParser\Objects\PriceRange;
 use ThinkReaXMLParser\Utilities\DateAndTime;
 
 abstract class Listing
@@ -30,6 +31,7 @@ abstract class Listing
     protected $description;
     protected $terms;
     protected $price;
+    protected $price_range;
     protected $price_view;
     protected $display_price;
     protected $total_units;
@@ -104,7 +106,10 @@ abstract class Listing
             $this->setVideo($xml->videoLink->attributes() ? (string)$xml->videoLink->attributes()->href : null);
         }
         $this->setPriceView((string)$xml->priceView);
-        if ($xml->price) {
+        if ($xml->price && $xml->price->range) {
+            $this->setPriceRange((int)$xml->price->range->min, (int)$xml->price->range->max);
+        }
+        elseif ($xml->price) {
             $this->setPrice((int)$xml->price);
             if (isset($xml->price->attributes()->display)) {
                 $this->setDisplayPrice((string)$xml->price->attributes()->display);
@@ -391,6 +396,25 @@ abstract class Listing
     public function setPrice($price)
     {
         $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPriceRange()
+    {
+        return $this->price_range;
+    }
+
+    /**
+     * @param mixed $min
+     * @param mixed $max
+     * @return Listing
+     */
+    public function setPriceRange($min, $max)
+    {
+        $this->price_range = new PriceRange($min, $max);
         return $this;
     }
 
