@@ -18,7 +18,6 @@ use XMLReader;
 
 class Parser
 {
-
     protected $file;
 
     protected $listings = [
@@ -40,7 +39,9 @@ class Parser
      */
     public function __construct($file, $called_statically = false)
     {
-        if (!$called_statically) $this->checkFileExists($file);
+        if (!$called_statically) {
+            $this->checkFileExists($file);
+        }
     }
 
     /**
@@ -72,7 +73,9 @@ class Parser
 
         $xml_reader = new XMLReader();
 
-        if ($file) $this->checkFileExists($file);
+        if ($file) {
+            $this->checkFileExists($file);
+        }
 
         try {
             $xml_reader->open($this->file);
@@ -88,7 +91,6 @@ class Parser
 
                 /* @var Listing $parser */
                 $results[] = new $listing($this->convertToSimpleXMLElement($xml_reader));
-
             }
         }
 

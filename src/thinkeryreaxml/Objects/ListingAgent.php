@@ -29,7 +29,7 @@ class ListingAgent implements JsonSerializable
 
         if ($agent->agentid) {
             $this->setAgentID((string)$agent->agentid);
-        } else if ($agent_id) {
+        } elseif ($agent_id) {
             $this->setAgentID($agent_id);
         }
     }

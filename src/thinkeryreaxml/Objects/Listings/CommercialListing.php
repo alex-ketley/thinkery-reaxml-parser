@@ -11,7 +11,7 @@ class CommercialListing extends Listing
         parent::__construct($xml);
 
         if (!in_array($this->getStatus(), $this->inactive)) {
-            if(isset($xml->commercialCategory)) {
+            if (isset($xml->commercialCategory)) {
                 $this->setCategory((string)$xml->commercialCategory->attributes()->name);
             }
         }

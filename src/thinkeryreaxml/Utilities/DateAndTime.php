@@ -8,7 +8,6 @@
 
 namespace ThinkReaXMLParser\Utilities;
 
-
 use Carbon\Carbon;
 
 class DateAndTime
@@ -33,14 +32,13 @@ class DateAndTime
      */
     public static function cleanDateTime($date_time_string)
     {
-
         foreach (self::FIXES as $fix) {
-            if (preg_match($fix['match'], $date_time_string))
+            if (preg_match($fix['match'], $date_time_string)) {
                 $date_time_string = preg_replace($fix['replace'], $fix['replacement'], $date_time_string);
+            }
         }
 
         return $date_time_string;
-
     }
 
     /**
@@ -49,8 +47,6 @@ class DateAndTime
      */
     public static function parseToCarbon($date_time_string)
     {
-
         return Carbon::parse(self::cleanDateTime($date_time_string));
-
     }
 }

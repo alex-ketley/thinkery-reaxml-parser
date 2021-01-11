@@ -46,4 +46,3 @@ class RentalListingTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(\Carbon\Carbon::class, $parsed->getModified());
     }
 }
-

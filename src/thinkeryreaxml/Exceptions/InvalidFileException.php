@@ -8,8 +8,6 @@
 
 namespace ThinkReaXMLParser\Exceptions;
 
-
 class InvalidFileException extends \Exception
 {
-
 }

@@ -41,7 +41,7 @@ class Media
         /* @var \SimpleXMLElement $object */
         if ($object->getName() == 'img') {
             $this->setImage(new ImageObject($object));
-        } else if ($object->getName() == 'floorplan') {
+        } elseif ($object->getName() == 'floorplan') {
             $this->setFloorplan(new FloorplanObject($object));
         }
     }

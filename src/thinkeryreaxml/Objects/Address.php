@@ -261,6 +261,4 @@ class Address
         $this->country = $country;
         return $this;
     }
-
-
 }

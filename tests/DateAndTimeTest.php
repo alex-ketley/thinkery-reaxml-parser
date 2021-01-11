@@ -10,7 +10,6 @@ use ThinkReaXMLParser\Utilities\DateAndTime;
 
 class DateAndTimeTest extends PHPUnit_Framework_TestCase
 {
-
     public function testCleanDateTime()
     {
         $date_time_1 = '2009-01-01-12:30:20';
@@ -34,5 +33,4 @@ class DateAndTimeTest extends PHPUnit_Framework_TestCase
         $this->assertSame('2009-01-01 12:30:20', $result_clean_3);
         $this->assertSame('2009-01-01 12:30:20', $result_carbon_3->format('Y-m-d H:i:s'));
     }
-    
 }
