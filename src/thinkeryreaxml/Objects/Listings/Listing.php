@@ -87,10 +87,10 @@ abstract class Listing
         $this->setModified((string) $xml->attributes()->modTime);
         $this->setStatus((string) $xml->attributes()->status);
         $this->setUniqueId((string) $xml->uniqueID);
-        $this->setTitle((string)$xml->headline);
-        $this->setDescription((string)$xml->description);
+        $this->setTitle((string) $xml->headline);
+        $this->setDescription((string) $xml->description);
         if ($xml->municipality) {
-            $this->setMunicipality((string)$xml->municipality);
+            $this->setMunicipality((string) $xml->municipality);
         }
         if ($xml->address) {
             $this->setAddress($xml->address);
@@ -103,15 +103,15 @@ abstract class Listing
         }
         $this->setMedia($xml);
         if ($xml->videoLink) {
-            $this->setVideo($xml->videoLink->attributes() ? (string)$xml->videoLink->attributes()->href : null);
+            $this->setVideo($xml->videoLink->attributes() ? (string) $xml->videoLink->attributes()->href : null);
         }
-        $this->setPriceView((string)$xml->priceView);
+        $this->setPriceView((string) $xml->priceView);
         if ($xml->price && $xml->price->range) {
-            $this->setPriceRange((int)$xml->price->range->min, (int)$xml->price->range->max);
+            $this->setPriceRange((int) $xml->price->range->min, (int) $xml->price->range->max);
         } elseif ($xml->price) {
-            $this->setPrice((int)$xml->price);
+            $this->setPrice((int) $xml->price);
             if (isset($xml->price->attributes()->display)) {
-                $this->setDisplayPrice((string)$xml->price->attributes()->display);
+                $this->setDisplayPrice((string) $xml->price->attributes()->display);
             } else {
                 $this->setDisplayPrice(true);
             }
@@ -122,9 +122,9 @@ abstract class Listing
         $this->setFeatures($xml);
         $this->setLatitude((string) $xml->Geocode->Latitude);
         $this->setLongitude((string) $xml->Geocode->Longitude);
-        $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string)$xml->exclusivity->attributes()->value : null);
-        $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string)$xml->authority->attributes()->value : null);
-        $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower((string)$xml->underOffer->attributes()->value) === 'yes' : null);
+        $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string) $xml->exclusivity->attributes()->value : null);
+        $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string) $xml->authority->attributes()->value : null);
+        $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower((string) $xml->underOffer->attributes()->value) === 'yes' : null);
     }
 
     public function hasActiveStatus()
@@ -922,7 +922,7 @@ abstract class Listing
 
     public function setUnderOffer($under_offer)
     {
-        $this->under_offer = (bool)$under_offer;
+        $this->under_offer = (bool) $under_offer;
 
         return $this;
     }

@@ -11,7 +11,7 @@ class ResidentialListing extends Listing
         parent::__construct($xml);
 
         if (!in_array($this->getStatus(), $this->inactive)) {
-            $this->setCategory((string)$xml->category->attributes()->name);
+            $this->setCategory((string) $xml->category->attributes()->name);
         }
     }
 }

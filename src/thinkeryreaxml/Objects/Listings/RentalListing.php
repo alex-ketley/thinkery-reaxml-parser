@@ -12,18 +12,18 @@ class RentalListing extends Listing
         $this->setIsRental(true);
 
         if (!in_array($this->getStatus(), $this->inactive)) {
-            $this->setPrice((string)$xml->rent);
+            $this->setPrice((string) $xml->rent);
             if (count($xml->category)) {
-                $this->setCategory((string)$xml->category->attributes()->name);
+                $this->setCategory((string) $xml->category->attributes()->name);
             }
             if (count($xml->rent)) {
-                $this->setPaymentFreq((string)$xml->rent->attributes()->period);
-                $this->setDisplayPrice((string)$xml->rent->attributes()->display);
+                $this->setPaymentFreq((string) $xml->rent->attributes()->period);
+                $this->setDisplayPrice((string) $xml->rent->attributes()->display);
             }
             if ($xml->bond) {
                 $this->setBond((string) $xml->bond);
             }
-            $this->setAvailable((string)$xml->dateAvailable);
+            $this->setAvailable((string) $xml->dateAvailable);
         }
     }
 
