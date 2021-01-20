@@ -10,7 +10,6 @@ class ListingAgent implements JsonSerializable
     protected $agentID;
     protected $name;
     protected $telephone;
-    protected $telephone_type;
     protected $email;
     protected $twitterURL;
     protected $facebookURL;
@@ -42,7 +41,6 @@ class ListingAgent implements JsonSerializable
             'agentId' => $this->getAgentId(),
             'name' => $this->getName(),
             'telephone' => $this->getTelephone(),
-            'telephoneType' => $this->getTelephoneType(),
             'email' => $this->getEmail(),
             'twitterURL' => $this->getTwitterURL(),
             'facebookURL' => $this->getFacebookURL(),
@@ -106,22 +104,6 @@ class ListingAgent implements JsonSerializable
         if (!empty((string) $telephone) && empty($this->telephone[(string) $telephone->attributes()->type])) {
             $this->telephone[(string) $telephone->attributes()->type] = (string) $telephone;
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTelephoneType()
-    {
-        return $this->telephone_type;
-    }
-
-    /**
-     * @param mixed $telephone_type
-     */
-    public function setTelephoneType($telephone_type)
-    {
-        $this->telephone_type = $telephone_type;
     }
 
     /**
