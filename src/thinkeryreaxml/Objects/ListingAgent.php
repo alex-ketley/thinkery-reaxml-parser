@@ -9,7 +9,7 @@ class ListingAgent implements JsonSerializable
     protected $order = 1;
     protected $agentID;
     protected $name;
-    protected $telephone;
+    protected $telephone = [];
     protected $email;
     protected $twitterURL;
     protected $facebookURL;
@@ -101,7 +101,11 @@ class ListingAgent implements JsonSerializable
      */
     public function addTelephone($telephone)
     {
-        if (!empty((string) $telephone) && empty($this->telephone[(string) $telephone->attributes()->type])) {
+        if (
+            !empty((string) $telephone)
+            && empty($this->telephone[(string) $telephone->attributes()->type])
+            && !in_array((string) $telephone, $this->telephone)
+        ) {
             $this->telephone[(string) $telephone->attributes()->type] = (string) $telephone;
         }
     }
