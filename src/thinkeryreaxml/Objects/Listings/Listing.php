@@ -54,6 +54,7 @@ abstract class Listing
     protected $created;
     protected $modified;
     protected $features = [];
+    protected $extra_fields = [];
     /* @var ListingAgent $agent */
     protected $agent;
     /* @var Address $address */
@@ -120,8 +121,9 @@ abstract class Listing
             $this->setPropview($xml->views);
         }
         $this->setFeatures($xml);
-        $this->setLatitude((string) $xml->Geocode->Latitude);
-        $this->setLongitude((string) $xml->Geocode->Longitude);
+        $this->setExtraFields($xml);
+        $this->setLatitude((string) $xml->Geocode->Latitude ?? $this->getExtraField('geoLat'));
+        $this->setLongitude((string) $xml->Geocode->Longitude ?? $this->getExtraField('geoLong'));
         $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string) $xml->exclusivity->attributes()->value : null);
         $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string) $xml->authority->attributes()->value : null);
         $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower((string) $xml->underOffer->attributes()->value) === 'yes' : null);
@@ -837,6 +839,15 @@ abstract class Listing
     }
 
     /**
+     * @param string $name
+     * @return Detail|null
+     */
+    public function getFeature($name)
+    {
+        return $this->features[$name] ?? null;
+    }
+
+    /**
      * @return array
      */
     public function getFeatureDetails()
@@ -867,7 +878,45 @@ abstract class Listing
                         $temp_context[$attribute] = (string) $value;
                     }
                     /* @var SimpleXMLElement $feature */
-                    $this->features[] = new Detail($feature_group, $feature->getName(), (string) $feature, $temp_context);
+                    $this->features[$feature->getName()] = new Detail($feature_group, $feature->getName(), (string) $feature, $temp_context);
+                }
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraFields()
+    {
+        return $this->extra_fields;
+    }
+
+    /**
+     * @param string $name
+     * @return string|null
+     */
+    public function getExtraField($name)
+    {
+        return $this->extra_fields[$name] ?? null;
+    }
+
+    /**
+     * @param SimpleXMLElement $xml
+     */
+    public function setExtraFields($xml)
+    {
+        if ($xml->extraFields) {
+            $current_name = null;
+            foreach ($xml->extraFields as $extra_field) {
+                $attributes = $extra_field->attributes();
+                foreach ($attributes as $key => $value) {
+                    if ($key === 'name') {
+                        $current_name = $value;
+                    } elseif ($current_name && $key === 'value') {
+                        $this->extra_fields[(string)$current_name] = (string) $value;
+                        $current_name = null;
+                    }
                 }
             }
         }
