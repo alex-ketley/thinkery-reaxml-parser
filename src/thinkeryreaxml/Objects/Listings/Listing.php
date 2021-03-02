@@ -27,6 +27,7 @@ abstract class Listing
     protected $municipality;
     protected $latitude;
     protected $longitude;
+    protected $raw_xml;
     protected $short_description;
     protected $description;
     protected $terms;
@@ -84,6 +85,7 @@ abstract class Listing
 
     public function __construct(SimpleXMLElement $xml)
     {
+        $this->setRawXML($xml);
         $this->setType((string) $xml->getName());
         $this->setModified((string) $xml->attributes()->modTime);
         $this->setStatus((string) $xml->attributes()->status);
@@ -152,6 +154,16 @@ abstract class Listing
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+    }
+
+    public function getRawXML()
+    {
+        return $this->raw_xml;
+    }
+
+    public function setRawXML($xml)
+    {
+        $this->raw_xml = $xml;
     }
 
     /**
