@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use SimpleXMLElement;
 use ThinkReaXMLParser\Objects\Address;
 use ThinkReaXMLParser\Objects\Detail;
-use ThinkReaXMLParser\Objects\ImageObject;
 use ThinkReaXMLParser\Objects\InspectionTime;
 use ThinkReaXMLParser\Objects\ListingAgent;
 use ThinkReaXMLParser\Objects\Media;
@@ -124,8 +123,8 @@ abstract class Listing
         }
         $this->setFeatures($xml);
         $this->setExtraFields($xml);
-        $this->setLatitude((string) $xml->Geocode->Latitude ?? $this->getExtraField('geoLat'));
-        $this->setLongitude((string) $xml->Geocode->Longitude ?? $this->getExtraField('geoLong'));
+        $this->setLatitude($this->getExtraField('geoLat'));
+        $this->setLongitude($this->getExtraField('geoLong'));
         $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string) $xml->exclusivity->attributes()->value : null);
         $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string) $xml->authority->attributes()->value : null);
         $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower((string) $xml->underOffer->attributes()->value) === 'yes' : null);
