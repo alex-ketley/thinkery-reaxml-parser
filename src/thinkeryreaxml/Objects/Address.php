@@ -17,7 +17,7 @@ class Address
     protected $postcode;
     protected $country = 'AUS'; // default australia
 
-    public function __construct(\SimpleXMLElement $address, $municipality = false, $region)
+    public function __construct(\SimpleXMLElement $address, $municipality = false, $region = null)
     {
         // set display_address
         $this->setDisplayAddress($address->attributes()->display);
