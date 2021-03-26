@@ -76,44 +76,49 @@ abstract class Listing
     ];
     // set the inactive statuses here
     protected $inactive = [
-        'leased', 'withdrawn', 'sold', 'rented'
+        'leased',
+        'withdrawn',
+        'sold',
+        'rented',
     ];
     protected $exclusivity;
     protected $authority;
-    protected $under_offer=null;
+    protected $under_offer = null;
 
     public function __construct(SimpleXMLElement $xml)
     {
         $this->setRawXML($xml);
-        $this->setType((string) $xml->getName());
-        $this->setModified((string) $xml->attributes()->modTime);
-        $this->setStatus((string) $xml->attributes()->status);
-        $this->setUniqueId((string) $xml->uniqueID);
-        $this->setTitle((string) $xml->headline);
-        $this->setDescription((string) $xml->description);
+        $this->setType($xml->getName());
+        $this->setModified($xml->attributes()->modTime);
+        $this->setStatus($xml->attributes()->status);
+        $this->setUniqueId($xml->uniqueID);
+        $this->setTitle($xml->headline);
+        $this->setDescription($xml->description);
+        $this->setExtraFields($xml);
+
         if ($xml->municipality) {
-            $this->setMunicipality((string) $xml->municipality);
+            $this->setMunicipality($xml->municipality);
         }
         if ($xml->address) {
-            $this->setAddress($xml->address);
+            $this->setAddress($xml->address, $this->getExtraField('regionName'));
         }
         if ($xml->agentID) {
-            $this->setAgentId((string) $xml->agentID);
+            $this->setAgentId($xml->agentID);
         }
         if ($xml->listingAgent) {
             $this->setAgents($xml->listingAgent->xpath('//listingAgent'));
         }
         $this->setMedia($xml);
         if ($xml->videoLink) {
-            $this->setVideo($xml->videoLink->attributes() ? (string) $xml->videoLink->attributes()->href : null);
+            $this->setVideo($xml->videoLink->attributes() ? $xml->videoLink->attributes()->href : null);
         }
-        $this->setPriceView((string) $xml->priceView);
+        $this->setPriceView($xml->priceView);
         if ($xml->price && $xml->price->range) {
             $this->setPriceRange((int) $xml->price->range->min, (int) $xml->price->range->max);
         } elseif ($xml->price) {
             $this->setPrice((int) $xml->price);
             if (isset($xml->price->attributes()->display)) {
-                $this->setDisplayPrice((string) $xml->price->attributes()->display);
+                $this->setDisplayPrice($xml->price->attributes()->display);
             } else {
                 $this->setDisplayPrice(true);
             }
@@ -121,13 +126,13 @@ abstract class Listing
         if ($xml->views) {
             $this->setPropview($xml->views);
         }
+
         $this->setFeatures($xml);
-        $this->setExtraFields($xml);
         $this->setLatitude($this->getExtraField('geoLat'));
         $this->setLongitude($this->getExtraField('geoLong'));
-        $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? (string) $xml->exclusivity->attributes()->value : null);
-        $this->setAuthority($xml->authority && $xml->authority->attributes() ? (string) $xml->authority->attributes()->value : null);
-        $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower((string) $xml->underOffer->attributes()->value) === 'yes' : null);
+        $this->setExclusivity($xml->exclusivity && $xml->exclusivity->attributes() ? $xml->exclusivity->attributes()->value : null);
+        $this->setAuthority($xml->authority && $xml->authority->attributes() ? $xml->authority->attributes()->value : null);
+        $this->setUnderOffer($xml->underOffer && $xml->underOffer->attributes() ? strtolower($xml->underOffer->attributes()->value) === 'yes' : null);
     }
 
     public function hasActiveStatus()
@@ -609,7 +614,7 @@ abstract class Listing
         $views = $propview->children();
         /* @var SimpleXMLElement $view */
         foreach ($views as $view) {
-            $this->propview[$view->getName()] = (string) $view;
+            $this->propview[$view->getName()] = $view;
         }
         return $this;
     }
@@ -817,9 +822,9 @@ abstract class Listing
      * @param SimpleXMLElement $address
      * @return Listing
      */
-    public function setAddress($address)
+    public function setAddress($address, $region)
     {
-        $this->address = new Address($address, $this->getMunicipality());
+        $this->address = new Address($address, $this->getMunicipality(), $region);
         return $this;
     }
 
@@ -886,10 +891,10 @@ abstract class Listing
                     $temp_context = [];
                     $attributes = $feature->attributes();
                     foreach ($attributes as $attribute => $value) {
-                        $temp_context[$attribute] = (string) $value;
+                        $temp_context[$attribute] = $value;
                     }
                     /* @var SimpleXMLElement $feature */
-                    $this->features[$feature->getName()] = new Detail($feature_group, $feature->getName(), (string) $feature, $temp_context);
+                    $this->features[$feature->getName()] = new Detail($feature_group, $feature->getName(), $feature, $temp_context);
                 }
             }
         }
@@ -925,7 +930,7 @@ abstract class Listing
                     if ($key === 'name') {
                         $current_name = $value;
                     } elseif ($current_name && $key === 'value') {
-                        $this->extra_fields[(string)$current_name] = (string) $value;
+                        $this->extra_fields[$current_name] = $value;
                         $current_name = null;
                     }
                 }
@@ -947,7 +952,7 @@ abstract class Listing
     public function setInspectionTimes($inspection_times)
     {
         foreach ($inspection_times as $inspection_time) {
-            $this->inspection_times[] = new InspectionTime((string) $inspection_time);
+            $this->inspection_times[] = new InspectionTime($inspection_time);
         }
     }
 

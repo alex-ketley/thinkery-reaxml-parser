@@ -11,7 +11,7 @@ class LandListing extends Listing
         parent::__construct($xml);
 
         if (!in_array($this->getStatus(), $this->inactive)) {
-            $this->setCategory((string) $xml->landCategory->attributes()->name);
+            $this->setCategory($xml->landCategory->attributes()->name);
         }
     }
 }

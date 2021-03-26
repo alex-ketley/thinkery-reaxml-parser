@@ -17,32 +17,32 @@ class Address
     protected $postcode;
     protected $country = 'AUS'; // default australia
 
-    public function __construct(\SimpleXMLElement $address, $municipality = false)
+    public function __construct(\SimpleXMLElement $address, $municipality = false, $region)
     {
         // set display_address
         $this->setDisplayAddress($address->attributes()->display);
         // set site
-        $this->setSite((string) $address->site);
+        $this->setSite($address->site);
         // set subNumber
-        $this->setSubNumber((string) $address->subNumber);
+        $this->setSubNumber($address->subNumber);
         // set lotNumber
-        $this->setLotNumber((string) $address->lotNumber);
+        $this->setLotNumber($address->lotNumber);
         // set streetNumber
-        $this->setStreetNumber((string) $address->streetNumber);
+        $this->setStreetNumber($address->streetNumber);
         // set street
-        $this->setStreet((string) $address->street);
+        $this->setStreet($address->street);
         // set suburb
-        $this->setSuburb((string) $address->suburb);
+        $this->setSuburb($address->suburb);
         // set municipality
         $this->setMunicipality($municipality);
         // set state
-        $this->setState((string) $address->state);
+        $this->setState($address->state);
         // set region
-        $this->setRegion((string) $address->region);
+        $this->setRegion(($address->region ?? $region ?? null));
         // set postcode
-        $this->setPostcode((string) $address->postcode);
+        $this->setPostcode($address->postcode);
         // set country
-        $this->setCountry((string) $address->country);
+        $this->setCountry($address->country);
     }
 
     /**

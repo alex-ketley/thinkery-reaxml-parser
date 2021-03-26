@@ -18,17 +18,17 @@ class ListingAgent implements JsonSerializable
     public function __construct(\SimpleXMLElement $agent, $agent_id = false)
     {
         $this->order = (int) $agent->attributes()->id ?: 1;
-        $this->setName((string) $agent->name);
+        $this->setName($agent->name);
         foreach ($agent->telephone as $telephone) {
             $this->addTelephone($telephone);
         }
-        $this->setEmail((string) $agent->email);
-        $this->setTwitterURL((string) $agent->twitterURL);
-        $this->setFacebookURL((string) $agent->facebookURL);
-        $this->setLinkedInURL((string) $agent->linkedInURL);
+        $this->setEmail($agent->email);
+        $this->setTwitterURL($agent->twitterURL);
+        $this->setFacebookURL($agent->facebookURL);
+        $this->setLinkedInURL($agent->linkedInURL);
 
         if ($agent->agentid) {
-            $this->setAgentID((string) $agent->agentid);
+            $this->setAgentID($agent->agentid);
         } elseif ($agent_id) {
             $this->setAgentID($agent_id);
         }
@@ -102,11 +102,11 @@ class ListingAgent implements JsonSerializable
     public function addTelephone($telephone)
     {
         if (
-            !empty((string) $telephone)
-            && empty($this->telephone[(string) $telephone->attributes()->type])
-            && !in_array((string) $telephone, $this->telephone)
+            !empty($telephone)
+            && empty($this->telephone[$telephone->attributes()->type])
+            && !in_array($telephone, $this->telephone)
         ) {
-            $this->telephone[(string) $telephone->attributes()->type] = (string) $telephone;
+            $this->telephone[$telephone->attributes()->type] = $telephone;
         }
     }
 

@@ -12,7 +12,7 @@ class CommercialListing extends Listing
 
         if (!in_array($this->getStatus(), $this->inactive)) {
             if (isset($xml->commercialCategory)) {
-                $this->setCategory((string) $xml->commercialCategory->attributes()->name);
+                $this->setCategory($xml->commercialCategory->attributes()->name);
             }
         }
     }
