@@ -18,7 +18,7 @@ class Detail implements JsonSerializable
      * @param $value
      * @param $context
      */
-    public function __construct($type, $name, $value, $context)
+    public function __construct($type = null, $name = null, $value = null, $context = null)
     {
         $this->setType($type);
         $this->setName($name);
