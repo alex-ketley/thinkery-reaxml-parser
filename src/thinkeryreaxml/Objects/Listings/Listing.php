@@ -112,13 +112,13 @@ abstract class Listing
         if ($xml->videoLink) {
             $this->setVideo($xml->videoLink->attributes() ? (string) $xml->videoLink->attributes()->href : null);
         }
-        $this->setPriceView($xml->priceView);
+        $this->setPriceView((string) $xml->priceView);
         if ($xml->price && $xml->price->range) {
             $this->setPriceRange((int) $xml->price->range->min, (int) $xml->price->range->max);
         } elseif ($xml->price) {
             $this->setPrice((int) $xml->price);
             if (isset($xml->price->attributes()->display)) {
-                $this->setDisplayPrice($xml->price->attributes()->display);
+                $this->setDisplayPrice((string) $xml->price->attributes()->display);
             } else {
                 $this->setDisplayPrice(true);
             }
@@ -870,10 +870,12 @@ abstract class Listing
     {
         $features = [];
 
-        foreach (array_filter($this->features, function ($feature) {
-            return $feature->getType() == 'features';
-        }) as $feature) {
-            $features[$feature->getName()] = $feature->getValue();
+        foreach ($this->features as $feature_group) {
+            foreach (array_filter($feature_group, function ($feature) {
+                return $feature->getType() == 'features';
+            }) as $feature) {
+                $features[$feature->getName()] = $feature->getValue();
+            }
         }
 
         return $features;
@@ -894,7 +896,7 @@ abstract class Listing
                         $temp_context[$attribute] = (string) $value;
                     }
                     /* @var SimpleXMLElement $feature */
-                    $this->features[$feature->getName()] = new Detail($feature_group, $feature->getName(), (string) $feature, $temp_context);
+                    $this->features[$feature_group][$feature->getName()] = new Detail($feature_group, $feature->getName(), (string) $feature, $temp_context);
                 }
             }
         }
