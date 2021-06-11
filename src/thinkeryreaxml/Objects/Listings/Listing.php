@@ -858,9 +858,17 @@ abstract class Listing
      * @param string $name
      * @return Detail|null
      */
-    public function getFeature($name)
+    public function getFeature($name, $group = null)
     {
-        return $this->features[$name] ?? new Detail;
+        if ($group) {
+            return $this->features[$group][$name] ?? null;
+        }
+        foreach ($this->features as $feature_group) {
+            if (isset($feature_group[$name])) {
+                return $feature_group[$name];
+            }
+        }
+        return null;
     }
 
     /**
