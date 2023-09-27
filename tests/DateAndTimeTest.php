@@ -6,9 +6,10 @@
  * www.thethinkery.net
  */
 
+use PHPUnit\Framework\TestCase;
 use ThinkReaXMLParser\Utilities\DateAndTime;
 
-class DateAndTimeTest extends PHPUnit_Framework_TestCase
+class DateAndTimeTest extends TestCase
 {
 
     public function testCleanDateTime()
