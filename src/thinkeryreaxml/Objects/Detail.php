@@ -26,7 +26,7 @@ class Detail implements JsonSerializable
         $this->setContext($context);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'type' => $this->type,
