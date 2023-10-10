@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "php": "^8.2.11",
+    "php": "^8.2.10",
     "nesbot/carbon": "^2.0"
   },
   "autoload": {
