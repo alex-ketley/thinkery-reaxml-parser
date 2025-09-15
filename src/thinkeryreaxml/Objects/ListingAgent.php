@@ -34,7 +34,7 @@ class ListingAgent implements JsonSerializable
         }
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'order' => $this->getOrder(),
