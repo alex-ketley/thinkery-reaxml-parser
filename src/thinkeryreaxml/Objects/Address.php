@@ -20,7 +20,7 @@ class Address
     public function __construct(\SimpleXMLElement $address, $municipality = false, $region = null)
     {
         // set display_address
-        $this->setDisplayAddress($address->attributes()->display);
+        $this->setDisplayAddress($address->attributes() ? $address->attributes()->display : null);
         // set site
         $this->setSite((string) $address->site);
         // set subNumber

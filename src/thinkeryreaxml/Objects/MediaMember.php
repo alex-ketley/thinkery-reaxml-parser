@@ -16,12 +16,12 @@ class MediaMember implements MediaObject
 
     public function __construct(\SimpleXMLElement $object)
     {
-        $this->setURL((string) $object->attributes()->url);
+        $this->setURL($object->attributes() ? (string) $object->attributes()->url : null);
         $this->setData((string) $object);
-        $this->setFileName((string) $object->attributes()->file);
-        $this->setOrdering((string) $object->attributes()->id);
-        $this->setModified((string) $object->attributes()->modTime);
-        $this->setFiletype((string) $object->attributes()->format);
+        $this->setFileName($object->attributes() ? (string) $object->attributes()->file : null);
+        $this->setOrdering($object->attributes() ? (string) $object->attributes()->id : null);
+        $this->setModified($object->attributes() ? (string) $object->attributes()->modTime : null);
+        $this->setFiletype($object->attributes() ? (string) $object->attributes()->format : null);
     }
 
     public function setURL($url)
